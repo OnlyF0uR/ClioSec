@@ -2,16 +2,16 @@
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import Modal, { getModal } from '/lib/modal.svelte';
+	import { getModal } from '/lib/modal.svelte';
 
 	// Construct component list
-	import Overview from '/lib/general/overview.svelte';
-	import Entities from '/lib/general/entities.svelte';
+	import CaseOverview from '/lib/contents/details.svelte';
+	import TargetOverview from '/lib/contents/target.svelte';
 	import Exception from '/lib/exception.svelte';
 
 	const componentList = {
-		ovw: Overview,
-		ent: Entities,
+		ovw: CaseOverview,
+		trg: TargetOverview,
 		ex: Exception
 	};
 
@@ -72,7 +72,7 @@
 
 		if (browser) {
 			let newElement = e.target;
-			if (newElement.nodeName === 'SPAN' && newElement.id !== 'ovw' && newElement.id !== 'ent') {
+			if (newElement.nodeName === 'SPAN' && newElement.id !== 'ovw' && newElement.id !== 'trg') {
 				newElement = newElement.parentElement;
 			}
 
@@ -96,28 +96,20 @@
 			e.target.style.transform = `rotate(${lastRotationalValue}deg)`;
 		}
 		
-		getModal("create").open();
-	}
-
-	function deleteClick() {
-		// Open modal
-		getModal("delete").open();
+		openModel("create");
 	}
 
 	function graphClick() {}
 
-	function deleteCase() {
-		// Close modal
-		getModal('delete').close()
-		// Redirect to cases page
-		goto("/cases")
-	} 
+	function openModel(action) {
+		getModal(action + "-" + tab).open();
+	}
 </script>
 
 <div />
 <div class="sidebar">
 	<span id="ovw" on:click={(e) => catClick(e, 'ovw')} class="opt cat active">Case Details</span>
-	<span id="ent" on:click={(e) => catClick(e, 'ent')} class="opt cat">Target Overview</span>
+	<span id="trg" on:click={(e) => catClick(e, 'trg')} class="opt cat">Target Overview</span>
 	<hr />
 
 	<span class="cat" on:click={() => (generalToggle = !generalToggle)}
@@ -223,23 +215,13 @@
 	{/await}
 </div>
 
-<Modal id="create">
-	<p>Hello world!</p>
-</Modal>
-
-<Modal id="delete">
-	<h3 style="margin-bottom: 11px;">Case Deletion</h3>
-	<p>Are you sure you want to delete? You will <strong>NOT</strong> be able to recover it afterwards.</p>
-
-	<button id="deleteButton" on:click={deleteCase}>Confirm</button>
-</Modal>
-
 <div class="sidebar-right">
 	<div class="social-links">
 		{#if tab === 'ovw'}
-			<i on:click={deleteClick} class="fa-solid fa-trash" style="color: firebrick;" />
+			<i on:click={() => openModel("delete")} class="fa-solid fa-trash" style="color: firebrick;" />
 		{/if}
 		{#if tab !== 'ovw'}
+			<!-- This function also opens model -->
 			<i on:click={createClick} class="fa-solid fa-plus" style="color: green;" />
 			<i on:click={graphClick} class="fa-solid fa-diagram-project" style="color: cadetblue;" />
 		{/if}
@@ -348,23 +330,6 @@
 
 	.social-links i {
 		transition-duration: 1s;
-	}
-
-	#deleteButton {
-		border: 1px solid transparent;
-		padding: 9px 35px;
-		font-size: 14px;
-		border-radius: 4px;
-		background-color: #d9534f;
-		border-color: #d43f3a;
-		color: white;
-		margin-top: 10px;
-		float: right;
-	}
-
-	#deleteButton:hover {
-		background-color: #d43f3a;
-		cursor: pointer;
 	}
 
 	/* Content */

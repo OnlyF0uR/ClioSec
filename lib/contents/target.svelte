@@ -1,4 +1,6 @@
 <script>
+	import Modal, { getModal } from '/lib/modal.svelte';
+
 	export let caseData;
 
 	async function getEntities() {
@@ -105,6 +107,13 @@
 {:catch}
 	<p>Failed.</p>
 {/await}
+
+<Modal id="create-trg">
+	<h3 style="margin-bottom: 11px;">Target creation</h3>
+	<p>
+		WIP
+	</p>
+</Modal>
 
 <style>
 	.container {
