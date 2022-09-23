@@ -1,6 +1,4 @@
-export function GET({ url }) {
-    console.log(url)
-
+export function GET() {
     const data = [
         { id: 0, name: "Sample data", },
         { id: 1, name: "Sample data 2", }

@@ -26,7 +26,7 @@
 		{/each}
 
 		{#if data.length === 0}
-			<p>No cases found</p>
+			<p>No entries found.</p>
 		{/if}
 	</div>
 {:catch}

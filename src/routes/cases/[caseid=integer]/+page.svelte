@@ -1,35 +1,19 @@
 <script>
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	
+	import { goto } from '$app/navigation';
+	import Modal, { getModal } from '/lib/modal.svelte';
+
 	// Construct component list
-	import Todo from '/lib/todo.svelte';
-	import Names from '/lib/general/names.svelte';
+	import Overview from '/lib/general/overview.svelte';
+	import Entities from '/lib/general/entities.svelte';
+	import Exception from '/lib/exception.svelte';
 
 	const componentList = {
-		"gen-nms": Names,
-		"ex": Todo
-	}
-
-	async function getCase() {
-		const res = await fetch('/api/cases/' + $page.params.caseid, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-
-		const data = await res.json();
-
-		if (browser) {
-			// client-only code here
-			document.title = 'Case: ' + data.name ?? 'Unknown Project';
-		}
-
-		return data;
-	}
-
-	let caseData = getCase() ?? {};
+		ovw: Overview,
+		ent: Entities,
+		ex: Exception
+	};
 
 	// Categories
 	let generalToggle = true;
@@ -38,18 +22,102 @@
 	let psychToggle = false;
 
 	// Context
-	let Context = undefined;
-	async function handleClick(cnt) {
+	let Context = componentList['ovw'];
+
+	// Element/Tab selector
+	let elem = undefined;
+	let tab = 'ovw';
+
+	let caseData = getCase();
+
+	// ===================================
+	// FUNCTIONS
+	// ===================================
+	async function getCase() {
+		const caseId = $page.params.caseid;
+
+		const res = await fetch('/api/cases/' + caseId, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		const data = await res.json();
+		if (!data["ok"]) {
+			alert("Invalid case.")
+			goto("/cases")
+			return null;
+		}
+
+		data["id"] = caseId;
+
+		if (browser) {
+			// Set the document title
+			document.title = 'Case: ' + data.name ?? 'Unknown Project';
+			// Define the overview element
+			elem = document.getElementById('ovw');
+		}
+
+		return data;
+	}
+
+	async function catClick(e, cnt) {
+		// Update the context
 		if (cnt in componentList) {
 			Context = componentList[cnt];
 		} else {
 			Context = componentList.ex;
 		}
+
+		if (browser) {
+			let newElement = e.target;
+			if (newElement.nodeName === 'SPAN' && newElement.id !== 'ovw' && newElement.id !== 'ent') {
+				newElement = newElement.parentElement;
+			}
+
+			// Remove from old one
+			elem.classList.remove('active');
+			// Add list to new one
+			newElement.classList.add('active');
+
+			// Overwrite the current element
+			elem = newElement;
+		}
+
+		// Update the tab metainf
+		tab = cnt;
 	}
+
+	let lastRotationalValue = 0;
+	function createClick(e) {
+		if (browser) {
+			lastRotationalValue += 90;
+			e.target.style.transform = `rotate(${lastRotationalValue}deg)`;
+		}
+		
+		getModal("create").open();
+	}
+
+	function deleteClick() {
+		// Open modal
+		getModal("delete").open();
+	}
+
+	function graphClick() {}
+
+	function deleteCase() {
+		// Close modal
+		getModal('delete').close()
+		// Redirect to cases page
+		goto("/cases")
+	} 
 </script>
 
+<div />
 <div class="sidebar">
-	<span class="opt active cat">Overview</span>
+	<span id="ovw" on:click={(e) => catClick(e, 'ovw')} class="opt cat active">Case Details</span>
+	<span id="ent" on:click={(e) => catClick(e, 'ent')} class="opt cat">Target Overview</span>
 	<hr />
 
 	<span class="cat" on:click={() => (generalToggle = !generalToggle)}
@@ -63,17 +131,18 @@
 	</span>
 	{#if generalToggle}
 		<ul>
-			<li><span on:click={() => handleClick("gen-nms")} class="opt sub"> - Names/Aliases</span></li>
-			<li><span on:click={() => handleClick("gen-eml")} class="opt sub"> - E-Mail</span></li>
-			<li><span on:click={() => handleClick("gen-lcs")} class="opt sub"> - Locations</span></li>
-			<li><span on:click={() => handleClick("gen-nmbr")} class="opt sub"> - Phone/Fax/Social Numbers</span></li>
-			<li><span on:click={() => handleClick("gen-sm")} class="opt sub"> - Social Media</span></li>
-			<li><span on:click={() => handleClick("gen-ipdr")} class="opt sub"> - IP Addresses</span></li>
-			<li><span on:click={() => handleClick("gen-dmns")} class="opt sub"> - Domains</span></li>
-			<li><span on:click={() => handleClick("gen-img")} class="opt sub"> - Images</span></li>
-			<li><span on:click={() => handleClick("gen-act")} class="opt sub"> - Activities</span></li>
-			<li><span on:click={() => handleClick("gen-lng")} class="opt sub"> - Languages</span></li>
-			<li><span on:click={() => handleClick("gen-hb")} class="opt sub"> - Hobbys</span></li>
+			<li on:click={(e) => catClick(e, 'gen-eml')}><span class="opt"> - E-Mail</span></li>
+			<li on:click={(e) => catClick(e, 'gen-lcs')}><span class="opt"> - Locations</span></li>
+			<li on:click={(e) => catClick(e, 'gen-nmbr')}>
+				<span class="opt"> - Phone/Fax/Social Numbers</span>
+			</li>
+			<li on:click={(e) => catClick(e, 'gen-sm')}><span class="opt"> - Social Media</span></li>
+			<li on:click={(e) => catClick(e, 'gen-ipdr')}><span class="opt"> - IP Addresses</span></li>
+			<li on:click={(e) => catClick(e, 'gen-dmns')}><span class="opt"> - Domains</span></li>
+			<li on:click={(e) => catClick(e, 'gen-img')}><span class="opt"> - Images</span></li>
+			<li on:click={(e) => catClick(e, 'gen-act')}><span class="opt"> - Activities</span></li>
+			<li on:click={(e) => catClick(e, 'gen-lng')}><span class="opt"> - Languages</span></li>
+			<li on:click={(e) => catClick(e, 'gen-hb')}><span class="opt"> - Hobbys</span></li>
 		</ul>
 	{/if}
 
@@ -90,9 +159,9 @@
 	</span>
 	{#if historyToggle}
 		<ul>
-			<li><span on:click={() => handleClick("his-edu")} class="opt sub"> - Education</span></li>
-			<li><span on:click={() => handleClick("his-wexp")} class="opt sub"> - Work Experience</span></li>
-			<li><span on:click={() => handleClick("his-schdl")} class="opt sub"> - Schedule</span></li>
+			<li on:click={(e) => catClick(e, 'his-edu')}><span class="opt"> - Education</span></li>
+			<li on:click={(e) => catClick(e, 'his-wexp')}><span class="opt"> - Work Experience</span></li>
+			<li on:click={(e) => catClick(e, 'his-schdl')}><span class="opt"> - Schedule</span></li>
 		</ul>
 	{/if}
 
@@ -109,15 +178,15 @@
 	</span>
 	{#if recordsToggle}
 		<ul>
-			<li><span on:click={() => handleClick("rec-prt")} class="opt sub"> - Property</span></li>
-			<li><span on:click={() => handleClick("rec-crm")} class="opt sub"> - Criminal</span></li>
-			<li><span on:click={() => handleClick("rec-brth")} class="opt sub"> - Birth</span></li>
-			<li><span on:click={() => handleClick("rec-dth")} class="opt sub"> - Death</span></li>
-			<li><span on:click={() => handleClick("rec-fnc")} class="opt sub"> - Financial</span></li>
-			<li><span on:click={() => handleClick("rec-med")} class="opt sub"> - Medical</span></li>
-			<li><span on:click={() => handleClick("rec-pol")} class="opt sub"> - Political</span></li>
-			<li><span on:click={() => handleClick("rec-bsn")} class="opt sub"> - Buisiness</span></li>
-			<li><span on:click={() => handleClick("rec-gov")} class="opt sub"> - Government</span></li>
+			<li on:click={(e) => catClick(e, 'rec-prt')}><span class="opt"> - Property</span></li>
+			<li on:click={(e) => catClick(e, 'rec-crm')}><span class="opt"> - Criminal</span></li>
+			<li on:click={(e) => catClick(e, 'rec-brth')}><span class="opt"> - Birth</span></li>
+			<li on:click={(e) => catClick(e, 'rec-dth')}><span class="opt"> - Death</span></li>
+			<li on:click={(e) => catClick(e, 'rec-fnc')}><span class="opt"> - Financial</span></li>
+			<li on:click={(e) => catClick(e, 'rec-med')}><span class="opt"> - Medical</span></li>
+			<li on:click={(e) => catClick(e, 'rec-pol')}><span class="opt"> - Political</span></li>
+			<li on:click={(e) => catClick(e, 'rec-bsn')}><span class="opt"> - Buisiness</span></li>
+			<li on:click={(e) => catClick(e, 'rec-gov')}><span class="opt"> - Government</span></li>
 		</ul>
 	{/if}
 
@@ -134,33 +203,51 @@
 	</span>
 	{#if psychToggle}
 		<ul>
-			<li><span on:click={() => handleClick("psy-nv")} class="opt sub"> - Non-Verbal</span></li>
-			<li><span on:click={() => handleClick("psy-ltr")} class="opt sub"> - Literature</span></li>
-			<li><span on:click={() => handleClick("psy-bhvr")} class="opt sub"> - Behaviour</span></li>
-			<li><span on:click={() => handleClick("psy-prnc")} class="opt sub"> - Principles</span></li>
+			<li on:click={(e) => catClick(e, 'psy-nv')}><span class="opt"> - Non-Verbal</span></li>
+			<li on:click={(e) => catClick(e, 'psy-ltr')}><span class="opt"> - Literature</span></li>
+			<li on:click={(e) => catClick(e, 'psy-bhvr')}><span class="opt"> - Behaviour</span></li>
+			<li on:click={(e) => catClick(e, 'psy-prnc')}><span class="opt"> - Principles</span></li>
 		</ul>
 	{/if}
-</div>
-<div class="sidebar-right">
-	<div class="social-links">
-		<i class="fa-solid fa-plus" />
-		<i class="fa-solid fa-diagram-project" />
-		<i class="fa-solid fa-trash" />
-	</div>
-	<div class="useful-links">
-		<i class="fa-solid fa-circle-info" />
-		<i class="fa-solid fa-code-merge" />
-	</div>
 </div>
 
 <div class="content">
 	{#await caseData}
 		<p>Loading...</p>
 	{:then data}
-		<svelte:component this={Context} data={data}/>
+		{#if data != null}
+			<svelte:component this={Context} caseData={data} />
+		{/if}
 	{:catch}
 		<p>Failed.</p>
 	{/await}
+</div>
+
+<Modal id="create">
+	<p>Hello world!</p>
+</Modal>
+
+<Modal id="delete">
+	<h3 style="margin-bottom: 11px;">Case Deletion</h3>
+	<p>Are you sure you want to delete? You will <strong>NOT</strong> be able to recover it afterwards.</p>
+
+	<button id="deleteButton" on:click={deleteCase}>Confirm</button>
+</Modal>
+
+<div class="sidebar-right">
+	<div class="social-links">
+		{#if tab === 'ovw'}
+			<i on:click={deleteClick} class="fa-solid fa-trash" style="color: firebrick;" />
+		{/if}
+		{#if tab !== 'ovw'}
+			<i on:click={createClick} class="fa-solid fa-plus" style="color: green;" />
+			<i on:click={graphClick} class="fa-solid fa-diagram-project" style="color: cadetblue;" />
+		{/if}
+	</div>
+	<div class="useful-links">
+		<i on:click={() => goto("https://github.com/OnlyF0uR/ClioSec")} class="fa-solid fa-code-merge" style="color: darkslategray;" />
+		<i on:click={() => goto("https://github.com/OnlyF0uR/ClioSec/wiki")} class="fa-solid fa-circle-info" style="color: darkslateblue;" />
+	</div>
 </div>
 
 <!-- https://www.color-hex.com/color-palette/1018207 -->
@@ -170,7 +257,7 @@
 		margin: 0;
 		padding: 0;
 		width: 175px;
-		box-shadow: 0px 0px 1px #232931;
+		box-shadow: 0px 0px 1px #434343;
 		position: fixed;
 		height: 100%;
 		overflow: auto;
@@ -178,7 +265,6 @@
 
 	.sidebar span {
 		display: block;
-		color: black;
 		text-decoration: none;
 		cursor: pointer;
 	}
@@ -192,19 +278,32 @@
 		font-size: 0.97em;
 	}
 
-	.sidebar .opt.active {
+	.sidebar li {
+		padding-top: 3px;
+		padding-bottom: 3px;
+		cursor: pointer;
+	}
+
+	.sidebar .opt {
+		font-size: 0.85em;
+		padding-left: 10px;
+	}
+
+	/* Active */
+	:global(.sidebar li.active) {
 		background-color: #587983;
 		color: white;
 	}
 
-	.sidebar .opt:hover:not(.active) {
-		background-color: #9db3b4;
+	.sidebar span.active {
+		background-color: #587983;
 		color: white;
 	}
 
-	.sub {
-		font-size: 0.85em;
-		padding-left: 10px;
+	/* Hover */
+	.sidebar li:hover:not(.active) {
+		background-color: #9db3b4;
+		color: white;
 	}
 
 	.sidebar hr {
@@ -220,11 +319,12 @@
 	.sidebar-right {
 		width: 50px;
 		height: 100vh;
-		box-shadow: 0px 0px 1px #232931;
+		box-shadow: 0px 0px 1px #434343;
 		position: fixed;
 		right: 0;
 		top: 0;
 	}
+
 	.social-links i,
 	.useful-links i {
 		width: 32px;
@@ -246,9 +346,33 @@
 		bottom: 30px;
 	}
 
+	.social-links i {
+		transition-duration: 1s;
+	}
+
+	#deleteButton {
+		border: 1px solid transparent;
+		padding: 9px 35px;
+		font-size: 14px;
+		border-radius: 4px;
+		background-color: #d9534f;
+		border-color: #d43f3a;
+		color: white;
+		margin-top: 10px;
+		float: right;
+	}
+
+	#deleteButton:hover {
+		background-color: #d43f3a;
+		cursor: pointer;
+	}
+
 	/* Content */
 	div.content {
+		/* Width of left sidebar */
 		margin-left: 175px;
+		/* Width of right sidebar */
+		margin-right: 50px;
 		padding: 1em;
 	}
 
