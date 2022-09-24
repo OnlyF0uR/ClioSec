@@ -129,12 +129,13 @@
 				<span class="opt"> - Phone/Fax/Social Numbers</span>
 			</li>
 			<li on:click={(e) => catClick(e, 'gen-sm')}><span class="opt"> - Social Media</span></li>
+			<li on:click={(e) => catClick(e, 'gen-sec')}><span class="opt"> - Secrets</span></li>
 			<li on:click={(e) => catClick(e, 'gen-ipdr')}><span class="opt"> - IP Addresses</span></li>
 			<li on:click={(e) => catClick(e, 'gen-dmns')}><span class="opt"> - Domains</span></li>
 			<li on:click={(e) => catClick(e, 'gen-img')}><span class="opt"> - Images</span></li>
 			<li on:click={(e) => catClick(e, 'gen-act')}><span class="opt"> - Activities</span></li>
 			<li on:click={(e) => catClick(e, 'gen-lng')}><span class="opt"> - Languages</span></li>
-			<li on:click={(e) => catClick(e, 'gen-hb')}><span class="opt"> - Hobbys</span></li>
+			<li on:click={(e) => catClick(e, 'gen-hbs')}><span class="opt"> - Hobbys</span></li>
 		</ul>
 	{/if}
 

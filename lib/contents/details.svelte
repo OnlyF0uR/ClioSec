@@ -1,6 +1,7 @@
 <script>
 	import Modal, { getModal } from '/lib/modal.svelte';
     import { goto } from '$app/navigation';
+	import ContentSeperator from '/lib/utils/content-seperator.svelte';
 
 	export let caseData;
 
@@ -11,6 +12,9 @@
 		goto('/cases');
 	}
 </script>
+
+<h2 style="margin-bottom: 18px;">Case Details</h2>
+<ContentSeperator />
 
 <p><strong>Name:</strong> {caseData.name}</p>
 <p><strong>Description:</strong> {caseData.desc ?? 'N/A'}</p>
