@@ -84,7 +84,7 @@ const data = [
             },
         ],
         name: "Iodiote Doe",
-        age: 12,
+        sex: 1,
     },
 ];
 

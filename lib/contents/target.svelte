@@ -85,12 +85,18 @@
 	// Please do not take this political
 	// This is merely to indicate something could be off
 	const illicitRelations = [
+		// Peronal relations
 		"paramour",
 		"bastard child",
 		"bastard son",
 		"bastard daughter",
 		"illegitimate father",
-		"illegitimate mother"
+		"illegitimate mother",
+
+		// Company/Government relations
+		"spymaster",
+		"spy",
+		"buisiness spy"
 	];
 </script>
 
