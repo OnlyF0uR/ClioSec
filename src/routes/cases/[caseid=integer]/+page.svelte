@@ -136,6 +136,7 @@
 			<li on:click={(e) => catClick(e, 'gen-act')}><span class="opt"> - Activities</span></li>
 			<li on:click={(e) => catClick(e, 'gen-lng')}><span class="opt"> - Languages</span></li>
 			<li on:click={(e) => catClick(e, 'gen-hbs')}><span class="opt"> - Hobbys</span></li>
+			<li on:click={(e) => catClick(e, 'gen-nts')}><span class="opt"> - Notes</span></li>
 		</ul>
 	{/if}
 

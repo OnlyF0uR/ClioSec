@@ -96,7 +96,12 @@
 		// Company/Government relations
 		"spymaster",
 		"spy",
-		"buisiness spy"
+		"buisiness spy",
+
+		// Criminal relations
+		"accomplice",
+		"gangleader",
+		"gangmember",
 	];
 </script>
 
