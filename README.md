@@ -4,4 +4,5 @@ A framework and interface for documenting and constructing cases: Open Source In
 
 ### Disclaimer
 Do not use for illegal or ethically questionable purposes.
-NOTE: All placeholder/sample data shown or shipped by this tool is completely fictional with no relation to the real world.
+
+**NOTE:** All placeholder/sample data shown or shipped by/with this tool is completely fictional with no relation to the real world.
