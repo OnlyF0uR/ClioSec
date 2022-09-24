@@ -5,8 +5,6 @@
 
 	export let caseData;
 
-	// ...
-
 	function deleteCase() {
 		getModal("delete-ovw").close();
 		goto('/cases');

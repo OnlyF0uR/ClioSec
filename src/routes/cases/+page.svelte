@@ -1,37 +1,23 @@
-<script context="module">
-	async function getCases() {
-		const res = await fetch('/api/cases/', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-
-		return await res.json();
-	}
-
-	let caseData = getCases() ?? [];
+<script>
+	/** @type {import('./$types').PageData} */
+	export let data;
 </script>
 
-{#await caseData}
-	<p>Loading...</p>
-{:then data}
-	<div class="container">
-		{#each data as { id, name }}
-			<a href="/cases/{id}">
-				<div class="case-item">
-					<p><strong>{id}</strong>: {name}</p>
-				</div>
-			</a>
-		{/each}
+<svelte:head>
+	<title>ClioSec - Cases</title>
+	<meta name="description" content="List of all active cases" />
+</svelte:head>
 
-		{#if data.length === 0}
-			<p>No entries found.</p>
-		{/if}
-	</div>
-{:catch}
-	<p>Failed.</p>
-{/await}
+<div class="container">
+	<!-- Loop through all cases -->
+	{#each data.cases as { id, name }}
+		<a href="/cases/{id}">
+			<div class="case-item">
+				<p><strong>{id}</strong>: {name}</p>
+			</div>
+		</a>
+	{/each}
+</div>
 
 <style>
 	.container {

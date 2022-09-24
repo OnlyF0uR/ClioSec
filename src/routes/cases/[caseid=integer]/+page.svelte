@@ -1,8 +1,8 @@
 <script>
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
 	import { getModal } from '/lib/modal.svelte';
+	import { goto } from '$app/navigation';
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 
 	// Construct component list
 	import CaseOverview from '/lib/contents/details.svelte';
@@ -15,11 +15,7 @@
 		ex: Exception
 	};
 
-	// Categories
-	let generalToggle = true;
-	let historyToggle = true;
-	let recordsToggle = false;
-	let psychToggle = false;
+	export let data;
 
 	// Context
 	let Context = componentList['ovw'];
@@ -28,41 +24,18 @@
 	let elem = undefined;
 	let tab = 'ovw';
 
-	let caseData = getCase();
+	// Categories
+	let generalToggle = true;
+	let historyToggle = true;
+	let recordsToggle = false;
+	let psychToggle = false;
 
-	// ===================================
-	// FUNCTIONS
-	// ===================================
-	async function getCase() {
-		const caseId = $page.params.caseid;
+	onMount(() => {
+		elem = document.getElementById('ovw');
+	});
 
-		const res = await fetch('/api/cases/' + caseId, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-
-		const data = await res.json();
-		if (!data["ok"]) {
-			alert("Invalid case.")
-			goto("/cases")
-			return null;
-		}
-
-		data["id"] = caseId;
-
-		if (browser) {
-			// Set the document title
-			document.title = 'Case: ' + data.name ?? 'Unknown Project';
-			// Define the overview element
-			elem = document.getElementById('ovw');
-		}
-
-		return data;
-	}
-
-	async function catClick(e, cnt) {
+	// =================== Category click ===================
+	function catClick(e, cnt) {
 		// Update the context
 		if (cnt in componentList) {
 			Context = componentList[cnt];
@@ -75,12 +48,10 @@
 			if (newElement.nodeName === 'SPAN' && newElement.id !== 'ovw' && newElement.id !== 'trg') {
 				newElement = newElement.parentElement;
 			}
-
 			// Remove from old one
 			elem.classList.remove('active');
 			// Add list to new one
 			newElement.classList.add('active');
-
 			// Overwrite the current element
 			elem = newElement;
 		}
@@ -89,24 +60,30 @@
 		tab = cnt;
 	}
 
+	// =================== Open a modal ===================
+		function openModel(action) {
+		getModal(action + '-' + tab).open();
+	}
+
+	// =================== Plus icon click ===================
 	let lastRotationalValue = 0;
 	function createClick(e) {
 		if (browser) {
 			lastRotationalValue += 90;
 			e.target.style.transform = `rotate(${lastRotationalValue}deg)`;
 		}
-		
-		openModel("create");
+
+		openModel('create');
 	}
 
+	// =================== Graph icon title ===================
 	function graphClick() {}
-
-	function openModel(action) {
-		getModal(action + "-" + tab).open();
-	}
 </script>
 
-<div />
+<svelte:head>
+	<title>Case: {data.name}</title>
+</svelte:head>
+
 <div class="sidebar">
 	<span id="ovw" on:click={(e) => catClick(e, 'ovw')} class="opt cat active">Case Details</span>
 	<span id="trg" on:click={(e) => catClick(e, 'trg')} class="opt cat">Target Overview</span>
@@ -206,21 +183,15 @@
 </div>
 
 <div class="content">
-	{#await caseData}
-		<p>Loading...</p>
-	{:then data}
-		{#if data != null}
-			<svelte:component this={Context} caseData={data} />
-		{/if}
-	{:catch}
-		<p>Failed.</p>
-	{/await}
+	{#if data}
+		<svelte:component this={Context} caseData={data} />
+	{/if}
 </div>
 
 <div class="sidebar-right">
 	<div class="social-links">
 		{#if tab === 'ovw'}
-			<i on:click={() => openModel("delete")} class="fa-solid fa-trash" style="color: firebrick;" />
+			<i on:click={() => openModel('delete')} class="fa-solid fa-trash" style="color: firebrick;" />
 		{/if}
 		{#if tab !== 'ovw'}
 			<!-- This function also opens model -->
@@ -229,8 +200,16 @@
 		{/if}
 	</div>
 	<div class="useful-links">
-		<i on:click={() => goto("https://github.com/OnlyF0uR/ClioSec")} class="fa-solid fa-code-merge" style="color: darkslategray;" />
-		<i on:click={() => goto("https://github.com/OnlyF0uR/ClioSec/wiki")} class="fa-solid fa-circle-info" style="color: darkslateblue;" />
+		<i
+			on:click={() => goto('https://github.com/OnlyF0uR/ClioSec')}
+			class="fa-solid fa-code-merge"
+			style="color: darkslategray;"
+		/>
+		<i
+			on:click={() => goto('https://github.com/OnlyF0uR/ClioSec/wiki')}
+			class="fa-solid fa-circle-info"
+			style="color: darkslateblue;"
+		/>
 	</div>
 </div>
 
