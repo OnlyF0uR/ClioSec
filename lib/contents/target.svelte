@@ -81,28 +81,6 @@
 
 		return '?';
 	}
-
-	// Please do not take this political
-	// This is merely to indicate something could be off
-	const illicitRelations = [
-		// Peronal relations
-		"paramour",
-		"bastard child",
-		"bastard son",
-		"bastard daughter",
-		"illegitimate father",
-		"illegitimate mother",
-
-		// Company/Government relations
-		"spymaster",
-		"spy",
-		"buisiness spy",
-
-		// Criminal relations
-		"accomplice",
-		"gangleader",
-		"gangmember",
-	];
 </script>
 
 {#await entityData}
@@ -125,7 +103,12 @@
 					<ul class="info-list">
 						<!-- Loop through relations -->
 						{#each entity.relations as rel}
-						<li>{idToName(rel.id, data) ?? 'N/A'} - <i class={ illicitRelations.includes(rel.type.toLowerCase()) ? 'illicit' : ''}>{rel.type}</i></li>
+						<li>
+							{idToName(rel.id, data) ?? 'N/A'} - 
+							<i class={ rel.illicit ? 'illicit' : ''}>
+								{rel.type}
+							</i>
+						</li>
 						{/each}
 					</ul>
 
@@ -158,7 +141,12 @@
 					<p>Relations:</p>
 					<ul class="info-list">
 						{#each entity.relations as rel}
-							<li>{idToName(rel.id, data) ?? 'N/A'} - <i class={ illicitRelations.includes(rel.type.toLowerCase()) ? 'illicit' : ''}>{rel.type}</i></li>
+							<li>
+								{idToName(rel.id, data) ?? 'N/A'} - 
+								<i class={ rel.illicit ? 'illicit' : ''}>
+									{rel.type}
+								</i>
+							</li>
 						{/each}
 					</ul>
 				</div>
@@ -188,18 +176,21 @@
 		margin-top: -10px;
 	}
 	.box {
-		box-shadow: 0 2px 4px 0 #434343;
+		box-shadow: 0 2px 4px 0 var(--grey-colour);
 		transition: 0.3s;
 		border-radius: 12px;
 		min-height: 125px;
-		width: 30%;
+		
+		/* Not bothered enough to use calc */
+		min-width: 22.8361%;
+		max-width: 22.8361%;
 		margin: 18px;
 		cursor: pointer;
 	}
 	/* Overwrite box */
 	.hl {
-		box-shadow: 0 2px 4px 0 goldenrod;
-		background-color: #fff9cc;
+		box-shadow: 0 2px 4px 0 var(--dark-highlight-colour);
+		background-color: var(--light-highlight-colour);
 	}
 
 	.box:hover {
@@ -216,6 +207,6 @@
 		margin-left: 28px;
 	}
 	.illicit {
-		color: red;
+		color: var(--red-colour);
 	}
 </style>

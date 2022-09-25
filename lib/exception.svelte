@@ -11,6 +11,6 @@
     }
     .error-msg {
         font-style: italic;
-        color: darkslategray;
+        color: var(--dark-grey-colour);
     }
 </style>

@@ -32,15 +32,15 @@
 		padding: 9px 35px;
 		font-size: 14px;
 		border-radius: 4px;
-		background-color: #d9534f;
-		border-color: #d43f3a;
+		background-color: var(--light-red-colour);;
+		border-color: var(--red-colour);
 		color: white;
 		margin-top: 10px;
 		float: right;
 	}
 
 	#deleteButton:hover {
-		background-color: #d43f3a;
+		background-color: var(--red-colour);
 		cursor: pointer;
 	}
 </style>

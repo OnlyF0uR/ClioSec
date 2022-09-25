@@ -7,10 +7,11 @@ const data = [
         highlight: true,
         relations: [{
             type: "Wife",
-            id: "d698bc35-7d5b-4054-bbe0-f856275e6c39"
+            id: "d698bc35-7d5b-4054-bbe0-f856275e6c39",
         }, {
             type: "Accomplice",
-            id: "9f08234-7ca9-32ds-2231-239o92689071"
+            id: "9f08234-7ca9-32ds-2231-239o92689071",
+            illicit: true
         }, {
             type: "Son",
             id: "cf3b6e68-bdd4-4eaf-ab44-24ae23f16afb"
@@ -27,13 +28,16 @@ const data = [
         highlight: true,
         relations: [{
             type: "Accomplice",
-            id: "9f0207d4-7ca9-4d1b-8948-239d56089071"
+            id: "9f0207d4-7ca9-4d1b-8948-239d56089071",
+            illicit: true
         }, {
             type: "Paramour",
-            id: "d698bc35-7d5b-4054-bbe0-f856275e6c39"
+            id: "d698bc35-7d5b-4054-bbe0-f856275e6c39",
+            illicit: true
         }, {
             type: "Bastard Son",
-            id: "54b1aca7-62ea-45e7-838b-f2d94e3d1d35"   
+            id: "54b1aca7-62ea-45e7-838b-f2d94e3d1d35",
+            illicit: true
         }],
     },
     {
@@ -46,10 +50,12 @@ const data = [
             id: "cf3b6e68-bdd4-4eaf-ab44-24ae23f16afb"
         }, {
             type: "Bastard Son",
-            id: "54b1aca7-62ea-45e7-838b-f2d94e3d1d35"   
+            id: "54b1aca7-62ea-45e7-838b-f2d94e3d1d35",
+            illicit: true
         }, {
             type: "Paramour",
-            id: "9f08234-7ca9-32ds-2231-239o92689071"
+            id: "9f08234-7ca9-32ds-2231-239o92689071",
+            illicit: true
         }],
         name: "Jane Doe",
         age: 33,
@@ -63,7 +69,8 @@ const data = [
             id: "d698bc35-7d5b-4054-bbe0-f856275e6c39"
         }, {
             type: "Illegitimate Father",
-            id: "9f08234-7ca9-32ds-2231-239o92689071"
+            id: "9f08234-7ca9-32ds-2231-239o92689071",
+            illicit: true
         }, {
             type: "Father",
             id: "9f0207d4-7ca9-4d1b-8948-239d56089071"
