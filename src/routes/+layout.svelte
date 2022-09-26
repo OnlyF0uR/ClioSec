@@ -25,15 +25,9 @@
 		--box-item-padding: 12px;
 	}
 
+	/* Page content */
 	:global(div.content-container) {
 		padding: var(--content-spacing);
-	}
-
-	:global(span.box-content-title) {
-		color: var(--light-grey-text-colour);
-		letter-spacing: 0.05em;
-		font-size: 16px;
-		cursor: pointer;
 	}
 
 	:global(h4.content-title) {
@@ -43,7 +37,24 @@
 		font-size: 16px;
 	}
 
-	:global(body) {
-		background-color: var(--primary-colour);
+	/* Box content */
+	:global(span.box-content-title) {
+		color: var(--light-grey-text-colour);
+		letter-spacing: 0.05em;
+		font-size: 16px;
+		cursor: pointer;
+	}
+
+	:global(.box-content-segment) {
+		margin-top: 12px;
+		color: var(--grey-text-colour);
+	}
+
+	:global(.box-content-segment span) {
+		font-weight: bold;
+	}
+
+	:global(.box-content-segment ul) {
+		margin-left: 24px;
 	}
 </style>

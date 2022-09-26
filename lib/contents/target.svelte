@@ -78,8 +78,8 @@
 					<div class="target">
 						<div class="target-content">
 							<span class="box-content-title">{entity.title}</span>
-							<div class="relations">
-								<p>Relations:</p>
+							<div class="box-content-segment">
+								<span>Relations:</span>
 								<ul>
 									{#each entity.relations as rel}
 										<li>
@@ -91,6 +91,12 @@
 									{/each}
 								</ul>
 							</div>
+							{#if entity.information != null}
+								<div class="box-content-segment">
+									<span>Information:</span>
+									<p>{entity.information}</p>
+								</div>
+							{/if}
 						</div>
 					</div>
 				{/each}
@@ -103,8 +109,8 @@
 					<div class="target">
 						<div class="target-content">
 							<span class="box-content-title">{entity.title}</span>
-							<div class="relations">
-								<p>Relations:</p>
+							<div class="box-content-segment">
+								<span>Relations:</span>
 								<ul>
 									{#each entity.relations as rel}
 										<li>
@@ -116,6 +122,12 @@
 									{/each}
 								</ul>
 							</div>
+							{#if entity.information != null}
+								<div class="box-content-segment">
+									<span>Information:</span>
+									<p>{entity.information}</p>
+								</div>
+							{/if}
 						</div>
 					</div>
 				{/each}
@@ -128,8 +140,8 @@
 					<div class="target">
 						<div class="target-content">
 							<span class="box-content-title">{entity.title}</span>
-							<div class="relations">
-								<p>Relations:</p>
+							<div class="box-content-segment">
+								<span>Relations:</span>
 								<ul>
 									{#each entity.relations as rel}
 										<li>
@@ -141,6 +153,12 @@
 									{/each}
 								</ul>
 							</div>
+							{#if entity.information != null}
+								<div class="box-content-segment">
+									<span>Information:</span>
+									<p>{entity.information}</p>
+								</div>
+							{/if}
 						</div>
 					</div>
 				{/each}
@@ -191,20 +209,7 @@
 		padding: var(--box-item-padding);
 	}
 
-	.target-content > .relations {
-		margin-top: 12px;
-		color: var(--grey-text-colour);
-	}
-
-	.target-content > .relations p {
-		font-weight: bold;
-	}
-
-	.target-content > .relations ul {
-		margin-left: 24px;
-	}
-
-	.target-content > .relations ul i.illicit {
-		color: var(--light-red-colour)
+	.box-content-segment > ul i.illicit {
+		color: var(--light-red-colour);
 	}
 </style>

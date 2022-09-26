@@ -17,8 +17,10 @@
 			<span class="box-content-title">
 				Information
 			</span>
-			<p><strong>Name:</strong> {caseData.name}</p>
-			<p><strong>Description:</strong> {caseData.desc ?? 'N/A'}</p>
+			<div class="box-content">
+				<p><span>Name:</span> {caseData.name}</p>
+				<p><span>Description:</span> {caseData.desc ?? 'N/A'}</p>
+			</div>
 		</div>
 		<div class="stats">
 			<div class="num">
@@ -63,6 +65,15 @@
 		width: var(--row1-spacing);
 
 		padding: var(--box-item-padding);
+	}
+
+	.box-content {
+		margin-top: 12px;
+		color: var(--grey-text-colour);
+	}
+
+	.box-content span {
+		font-weight: bold;
 	}
 
 	.row > .stats {
