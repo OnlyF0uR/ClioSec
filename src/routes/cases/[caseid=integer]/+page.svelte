@@ -238,7 +238,7 @@
 	}
 
 	li.nav-title {
-		color: #9ea3b4;
+		color: var(--light-grey-text-colour);
 		padding: 12px 8px;
 		letter-spacing: 0.05em;
 		font-size: 11px;
@@ -248,7 +248,7 @@
 	}
 
 	li:not(.nav-title) {
-		color: #646977;
+		color: var(--grey-text-colour);
 		cursor: pointer;
 		padding: 4px 20px;
 		transition: all 0.2s;

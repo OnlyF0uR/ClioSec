@@ -78,6 +78,19 @@
 					<div class="target">
 						<div class="target-content">
 							<span class="title">{entity.title}</span>
+							<div class="relations">
+								<p>Relations:</p>
+								<ul>
+									{#each entity.relations as rel}
+										<li>
+											{idToName(rel.id, data) ?? 'N/A'} -
+											<i class={rel.illicit ? 'illicit' : ''}>
+												{rel.type}
+											</i>
+										</li>
+									{/each}
+								</ul>
+							</div>
 						</div>
 					</div>
 				{/each}
@@ -90,6 +103,19 @@
 					<div class="target">
 						<div class="target-content">
 							<span class="title">{entity.title}</span>
+							<div class="relations">
+								<p>Relations:</p>
+								<ul>
+									{#each entity.relations as rel}
+										<li>
+											{idToName(rel.id, data) ?? 'N/A'} -
+											<i class={rel.illicit ? 'illicit' : ''}>
+												{rel.type}
+											</i>
+										</li>
+									{/each}
+								</ul>
+							</div>
 						</div>
 					</div>
 				{/each}
@@ -102,6 +128,19 @@
 					<div class="target">
 						<div class="target-content">
 							<span class="title">{entity.title}</span>
+							<div class="relations">
+								<p>Relations:</p>
+								<ul>
+									{#each entity.relations as rel}
+										<li>
+											{idToName(rel.id, data) ?? 'N/A'} -
+											<i class={rel.illicit ? 'illicit' : ''}>
+												{rel.type}
+											</i>
+										</li>
+									{/each}
+								</ul>
+							</div>
 						</div>
 					</div>
 				{/each}
@@ -140,7 +179,6 @@
 		width: calc((100% - (var(--content-spacing) * 3)) / 4);
 
 		height: 37.5vh;
-		
 
 		background-color: var(--blue-colour);
 	}
@@ -149,18 +187,31 @@
 		box-shadow: 0 0 4px 1px var(--dark-highlight-colour);
 	}
 
-	/* .row:not(.primary) > .target {
-		box-shadow: 0 0 3px 0px #646977;
-	} */
-
 	.target-content {
 		padding: 12px;
 	}
 
 	.target-content > .title {
-		color: #9ea3b4;
+		color: var(--light-grey-text-colour);
 		letter-spacing: 0.05em;
 		font-size: 16px;
 		cursor: pointer;
+	}
+
+	.target-content > .relations {
+		margin-top: 12px;
+		color: var(--grey-text-colour);
+	}
+
+	.target-content > .relations p {
+		font-weight: bold;
+	}
+
+	.target-content > .relations ul {
+		margin-left: 24px;
+	}
+
+	.target-content > .relations ul i.illicit {
+		color: var(--light-red-colour)
 	}
 </style>

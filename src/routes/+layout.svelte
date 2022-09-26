@@ -7,6 +7,9 @@
 		--blue-variant-colour: #3b4680;
 		--light-blue-colour: #8bb5db;
 
+		--light-grey-text-colour: #9ea3b4;
+		--grey-text-colour: #646977;
+
 		--main-colour: #587983;
 
 		/* Icon-colour etc. */
