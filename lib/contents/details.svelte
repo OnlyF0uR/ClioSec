@@ -19,10 +19,10 @@
 		</div>
 		<div class="stats">
 			<div class="num">
-				<div class="stat1"></div>
-				<div class="stat2"></div>
+				<div class="stat1" />
+				<div class="stat2" />
 			</div>
-			<div class="graph"></div>
+			<div class="graph" />
 		</div>
 	</div>
 </div>

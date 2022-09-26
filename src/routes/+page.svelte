@@ -1,8 +1,3 @@
-<script>
-	/** @type {import('./$types').PageData} */
-	export let data;
-</script>
-
 <div class="hero">
 	<h1>Coming soon!</h1>
 </div>

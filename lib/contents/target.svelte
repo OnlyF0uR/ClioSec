@@ -1,8 +1,5 @@
 <script>
-	import { validate_component } from 'svelte/internal';
-
 	import Modal, { getModal } from '/lib/modal.svelte';
-	import ContentSeperator from '/lib/utils/content-seperator.svelte';
 
 	export let caseData;
 
@@ -16,12 +13,12 @@
 		});
 
 		let body = await res.json();
-        let result = {
-            primary: [],
-            secondary: [],
-            tertiary: []
-        }
-        
+		let result = {
+			primary: [],
+			secondary: [],
+			tertiary: []
+		};
+
 		// Loop through categories
 		for (const [key, value] of Object.entries(body)) {
 			// Loop through entities
@@ -78,7 +75,7 @@
 			<h4 class="content-title">Primary targets</h4>
 			<div class="row primary">
 				{#each data.primary as entity}
-					<div class="target" >{entity.title}</div>
+					<div class="target">{entity.title}</div>
 				{/each}
 			</div>
 		</div>
@@ -86,7 +83,7 @@
 			<h4 class="content-title">Secondary targets</h4>
 			<div class="row">
 				{#each data.secondary as entity}
-					<div class="target" >{entity.title}</div>
+					<div class="target">{entity.title}</div>
 				{/each}
 			</div>
 		</div>
@@ -94,7 +91,7 @@
 			<h4 class="content-title">Tertiary targets</h4>
 			<div class="row">
 				{#each data.tertiary as entity}
-					<div class="target" >{entity.title}</div>
+					<div class="target">{entity.title}</div>
 				{/each}
 			</div>
 		</div>

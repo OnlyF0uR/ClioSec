@@ -7,4 +7,4 @@
 	<title>ClioSec - {$page.status}</title>
 </svelte:head>
 
-<Exception code="{$page.status}" msg="{$page.error.message}" />
+<Exception code={$page.status} msg={$page.error.message} />

@@ -65,9 +65,9 @@
 </script>
 
 <div class="overlay" class:visible bind:this={topDiv} on:click={() => close()}>
-    <div class="box" on:click|stopPropagation={() => {}}>
-        <slot /> 
-    </div>
+	<div class="box" on:click|stopPropagation={() => {}}>
+		<slot />
+	</div>
 </div>
 
 <style>
@@ -81,21 +81,21 @@
 		right: 0;
 		bottom: 0;
 		background: #4448;
-		
-        display: flex;
+
+		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 
-    .visible {
+	.visible {
 		visibility: visible !important;
 	}
 
 	.box {
-        box-shadow: 0 2px 4px 0 #434343;
+		box-shadow: 0 2px 4px 0 #434343;
 		border-radius: 8px;
 		background: white;
 		padding: 1.2em;
-        width: 45%;
+		width: 45%;
 	}
 </style>

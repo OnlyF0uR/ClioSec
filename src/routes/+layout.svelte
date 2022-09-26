@@ -8,7 +8,6 @@
 		--light-blue-colour: #8bb5db;
 
 		--main-colour: #587983;
-		/* --secondary-colour: #9db3b4; */
 
 		/* Icon-colour etc. */
 		--light-red-colour: #d65551;

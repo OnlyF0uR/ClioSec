@@ -89,7 +89,9 @@
 	<div class="navbar">
 		<ul id="nav-items">
 			<!-- Main opts -->
-			<li id="ovw" class="active" on:click={(e) => catClick(e, 'ovw')}><span>Case Details</span></li>
+			<li id="ovw" class="active" on:click={(e) => catClick(e, 'ovw')}>
+				<span>Case Details</span>
+			</li>
 			<li on:click={(e) => catClick(e, 'trg')}><span>Target Overview</span></li>
 			<!-- General -->
 			<li class="nav-title" on:click={() => (generalToggle = !generalToggle)}>
@@ -220,7 +222,7 @@
 		width: 15%;
 		display: block;
 
-  		overflow: auto;
+		overflow: auto;
 		height: 100vh;
 		-ms-overflow-style: none;
 		scrollbar-width: none;
@@ -296,7 +298,7 @@
 		background-color: var(--dark-blue-colour);
 		width: 100%;
 
-  		overflow: auto;
+		overflow: auto;
 		height: 100vh;
 		-ms-overflow-style: none;
 		scrollbar-width: none;
