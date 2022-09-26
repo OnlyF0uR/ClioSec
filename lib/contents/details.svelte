@@ -14,10 +14,8 @@
 	<h4 class="content-title">Case details</h4>
 	<div class="row">
 		<div class="details">
-			<span class="box-content-title">
-				Information
-			</span>
-			<div class="box-content">
+			<span class="box-content-title">Information</span>
+			<div class="box-content-segment">
 				<p><span>Name:</span> {caseData.name}</p>
 				<p><span>Description:</span> {caseData.desc ?? 'N/A'}</p>
 			</div>
@@ -65,15 +63,6 @@
 		width: var(--row1-spacing);
 
 		padding: var(--box-item-padding);
-	}
-
-	.box-content {
-		margin-top: 12px;
-		color: var(--grey-text-colour);
-	}
-
-	.box-content span {
-		font-weight: bold;
 	}
 
 	.row > .stats {

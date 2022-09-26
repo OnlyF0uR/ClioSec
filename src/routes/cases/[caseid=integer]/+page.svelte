@@ -5,14 +5,17 @@
 	import { onMount } from 'svelte';
 
 	// Construct component list
-	import CaseOverview from '/lib/contents/details.svelte';
-	import TargetOverview from '/lib/contents/target.svelte';
-	import Exception from '/lib/exception.svelte';
+	import CaseComponent from '/lib/contents/details.svelte';
+	import TargetsComponent from '/lib/contents/target.svelte';
+	import ExceptionComponent from '/lib/exception.svelte';
+	import AccountsComponent from '/lib/contents/general/accounts.svelte';
 
 	const componentList = {
-		ovw: CaseOverview,
-		trg: TargetOverview,
-		ex: Exception
+		ovw: CaseComponent,
+		trg: TargetsComponent,
+		ex: ExceptionComponent,
+
+		"gen-acn": AccountsComponent,
 	};
 
 	export let data;
@@ -103,12 +106,11 @@
 				{/if}
 			</li>
 			{#if generalToggle}
-				<li on:click={(e) => catClick(e, 'gen-eml')}><span> - E-Mail</span></li>
+				<li on:click={(e) => catClick(e, 'gen-acn')}><span> - Accounts</span></li>
 				<li on:click={(e) => catClick(e, 'gen-lcs')}><span> - Locations</span></li>
 				<li on:click={(e) => catClick(e, 'gen-nmbr')}>
 					<span> - Phone/Fax/Social Numbers</span>
 				</li>
-				<li on:click={(e) => catClick(e, 'gen-sm')}><span> - Social Media</span></li>
 				<li on:click={(e) => catClick(e, 'gen-sec')}><span> - Secrets</span></li>
 				<li on:click={(e) => catClick(e, 'gen-ipdr')}><span> - IP Addresses</span></li>
 				<li on:click={(e) => catClick(e, 'gen-dmns')}><span> - Domains</span></li>
