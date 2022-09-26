@@ -1,10 +1,13 @@
 <script>
+	import { validate_component } from 'svelte/internal';
+
 	import Modal, { getModal } from '/lib/modal.svelte';
 	import ContentSeperator from '/lib/utils/content-seperator.svelte';
 
 	export let caseData;
 
 	async function getEntities() {
+		// Get the target data
 		const res = await fetch(`/api/cases/${caseData.id}/targets`, {
 			method: 'GET',
 			headers: {
@@ -13,152 +16,89 @@
 		});
 
 		let body = await res.json();
-		let result = {
-			hl: [],
-			def: []
-		};
+        let result = {
+            primary: [],
+            secondary: [],
+            tertiary: []
+        }
+        
+		// Loop through categories
+		for (const [key, value] of Object.entries(body)) {
+			// Loop through entities
+			for (let i = 0; i < value.length; i++) {
+				let tmp = value[i];
 
-		for (let i = 0; i < body.length; i++) {
-			let tmp = body[i];
-			tmp.title = 'Unknown';
+				if (!tmp.aliases) tmp.aliases = [];
+				if (!tmp.aliases) tmp.aliases = [];
 
-			if (tmp.aliases == null) {
-				tmp.aliases = [];
-			}
+				tmp.tite = 'Unknown';
 
-			if (tmp.relations == null) {
-				tmp.relations = [];
-			}
+				// Entity title
+				if (tmp.name) tmp.title = tmp.name;
+				else if (tmp.aliases.length) tmp.title = tmp.aliases[0];
 
-			// =================== Entity title ===================
-			if (tmp.name == null) {
-				if (tmp.aliases.length !== 0) {
-					tmp.title = tmp.aliases[0];
-				}
-			} else {
-				tmp.title = tmp.name;
-			}
-
-			if (tmp.age) {
-				if (tmp.sex === 0) {
-					tmp.title += ` (${tmp.age}M)`;
-				} else if (tmp.sex === 1) {
-					tmp.title += ` (${tmp.age}F)`;
+				if (tmp.age) {
+					if (tmp.sex === 0) {
+						tmp.title += ` (${tmp.age}M)`;
+					} else if (tmp.sex === 1) {
+						tmp.title += ` (${tmp.age}F)`;
+					} else {
+						tmp.title += ` (${tmp.age})`;
+					}
 				} else {
-					tmp.title += ` (${tmp.age})`;
+					if (tmp.sex === 0) {
+						tmp.title += ` (M)`;
+					} else if (tmp.sex === 1) {
+						tmp.title += ` (F)`;
+					} else {
+						tmp.title += ` (${tmp.age})`;
+					}
 				}
-			} else {
-				if (tmp.sex === 0) {
-					tmp.title += ` (M)`;
-				} else if (tmp.sex === 1) {
-					tmp.title += ` (F)`;
-				} else {
-					tmp.title += ` (${tmp.age})`;
-				}
-			}
 
-			// =================== Highlight sort ===================
-			if (tmp.highlight === true) {
-				result.hl.push(tmp);
-			} else {
-				result.def.push(tmp);
+				result[key].push(tmp);
 			}
 		}
 
-		return result;
+		return body;
 	}
 
 	let entityData = getEntities();
 
 	function idToName(id, dataset) {
-		// Primary dataset
-		for (let i = 0; i < dataset.hl.length; i++)
-			if (dataset.hl[i].id === id) return dataset.hl[i].name ?? 'N/A';
-
-		// Secondary dataset
-		for (let i = 0; i < dataset.def.length; i++)
-			if (dataset.def[i].id === id) return dataset.def[i].name ?? 'N/A';
+		for (const [_, v] of Object.entries(dataset))
+			for (let i = 0; i < v.length; i++) if (v[i].id === id) return v[i].name ?? 'N/A';
 
 		return '?';
 	}
 </script>
 
-{#await entityData}
-	<p>Loading...</p>
-{:then data}
-	<h2 style="margin-bottom: 18px;">Target Overview</h2>
-	<ContentSeperator />
-
-	<h4>Primary targets</h4>
-	<!-- Highlighted targets -->
-	<div class="container">
-		{#each data.hl as entity}
-			<div class="box hl">
-				<div class="contents">
-					<!-- Title -->
-					<h3>{entity.title}</h3>
-
-					<!-- Relations (Yes, plural)-->
-					<p>Relations:</p>
-					<ul class="info-list">
-						<!-- Loop through relations -->
-						{#each entity.relations as rel}
-						<li>
-							{idToName(rel.id, data) ?? 'N/A'} - 
-							<i class={ rel.illicit ? 'illicit' : ''}>
-								{rel.type}
-							</i>
-						</li>
-						{/each}
-					</ul>
-
-					<!-- Aliases -->
-					{#if entity.aliases.length > 0}
-						<p>Aliases:</p>
-						<ul class="info-list">
-							{#each entity.aliases as alias}
-								<li>{alias}</li>
-							{/each}
-						</ul>
-					{/if}
-				</div>
+{#await entityData then data}
+	<div class="content-container">
+		<div class="target-group">
+			<h4 class="content-title">Primary targets</h4>
+			<div class="row primary">
+				{#each data.primary as entity}
+					<div class="target" >{entity.title}</div>
+				{/each}
 			</div>
-		{/each}
-	</div>
-
-	<ContentSeperator />
-	<h4>Secondary targets</h4>
-
-	<!-- Default targets -->
-	<div class="container">
-		{#each data.def as entity}
-			<div class="box">
-				<div class="contents">
-					<!-- Title -->
-					<h3>{entity.title}</h3>
-
-					<!-- Loop through relations -->
-					<p>Relations:</p>
-					<ul class="info-list">
-						{#each entity.relations as rel}
-							<li>
-								{idToName(rel.id, data) ?? 'N/A'} - 
-								<i class={ rel.illicit ? 'illicit' : ''}>
-									{rel.type}
-								</i>
-							</li>
-						{/each}
-					</ul>
-				</div>
+		</div>
+		<div class="target-group">
+			<h4 class="content-title">Secondary targets</h4>
+			<div class="row">
+				{#each data.secondary as entity}
+					<div class="target" >{entity.title}</div>
+				{/each}
 			</div>
-		{/each}
+		</div>
+		<div class="target-group">
+			<h4 class="content-title">Tertiary targets</h4>
+			<div class="row">
+				{#each data.tertiary as entity}
+					<div class="target" >{entity.title}</div>
+				{/each}
+			</div>
+		</div>
 	</div>
-
-	{#if data.hl.length === 0 && data.def.length === 0}
-		<p>No entries found.</p>
-	{/if}
-{:catch}
-	<p>Failed.</p>
 {/await}
 
 <Modal id="create-trg">
@@ -167,46 +107,35 @@
 </Modal>
 
 <style>
-	.container {
+	.content-container {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+		gap: var(--content-spacing);
+	}
+
+	div.target-group {
+		min-height: 37.5vh;
+	}
+
+	.row {
 		display: flex;
 		flex-wrap: wrap;
 		flex-direction: row;
-		justify-content: left;
-		align-items: center;
-		margin-top: -10px;
-	}
-	.box {
-		box-shadow: 0 2px 4px 0 var(--grey-colour);
-		transition: 0.3s;
-		border-radius: 12px;
-		min-height: 125px;
-		
-		/* Not bothered enough to use calc */
-		min-width: 22.8361%;
-		max-width: 22.8361%;
-		margin: 18px;
-		cursor: pointer;
-	}
-	/* Overwrite box */
-	.hl {
-		box-shadow: 0 2px 4px 0 var(--dark-highlight-colour);
-		background-color: var(--light-highlight-colour);
+
+		gap: var(--content-spacing);
 	}
 
-	.box:hover {
-		transform: scale(1.04);
+	.row > .target {
+		border-radius: 4px;
+		width: calc((100% - (var(--content-spacing) * 3)) / 4);
+
+		height: 37.5vh;
+
+		background-color: var(--blue-colour);
 	}
 
-	.contents {
-		padding: 1em;
-	}
-	p {
-		margin-top: 11px;
-	}
-	ul.info-list {
-		margin-left: 28px;
-	}
-	.illicit {
-		color: var(--red-colour);
+	.row.primary > .target {
+		box-shadow: 0 0 4px 1px var(--dark-highlight-colour);
 	}
 </style>

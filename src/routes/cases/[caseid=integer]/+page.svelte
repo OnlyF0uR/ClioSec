@@ -89,7 +89,7 @@
 	<div class="navbar">
 		<ul id="nav-items">
 			<!-- Main opts -->
-			<li id="ovw" on:click={(e) => catClick(e, 'ovw')}><span>Case Details</span></li>
+			<li id="ovw" class="active" on:click={(e) => catClick(e, 'ovw')}><span>Case Details</span></li>
 			<li on:click={(e) => catClick(e, 'trg')}><span>Target Overview</span></li>
 			<!-- General -->
 			<li class="nav-title" on:click={() => (generalToggle = !generalToggle)}>
@@ -200,7 +200,7 @@
 			<i
 				on:click={() => goto('https://github.com/OnlyF0uR/ClioSec/wiki')}
 				class="fa-solid fa-circle-info"
-				style="color: var(--dark-blue-colour);"
+				style="color: var(--blue-variant-colour);"
 			/>
 		</div>
 	</div>
@@ -215,7 +215,7 @@
 
 	/* Navbar */
 	.flex > .navbar {
-		background-color: #2a2f42;
+		background-color: var(--blue-colour);
 		margin-right: auto;
 		width: 15%;
 		display: block;
@@ -235,7 +235,7 @@
 		list-style: none;
 	}
 
-	.nav-title {
+	li.nav-title {
 		color: #9ea3b4;
 		padding: 12px 8px;
 		letter-spacing: 0.05em;
@@ -258,9 +258,13 @@
 		background-color: #545a6d;
 	}
 
+	li.active:not(.nav-title) {
+		color: rgb(189, 189, 189);
+	}
+
 	/* Actionbar */
 	.flex > .actionbar {
-		background-color: #2a2f42;
+		background-color: var(--blue-colour);
 		margin-left: auto;
 		width: 50px;
 	}
@@ -289,7 +293,7 @@
 
 	/* Content */
 	.flex > .content {
-		background-color: #212735;
+		background-color: var(--dark-blue-colour);
 		width: 100%;
 
   		overflow: auto;
