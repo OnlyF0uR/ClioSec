@@ -77,7 +77,7 @@
 				{#each data.primary as entity}
 					<div class="target">
 						<div class="target-content">
-							<span class="title">{entity.title}</span>
+							<span class="box-content-title">{entity.title}</span>
 							<div class="relations">
 								<p>Relations:</p>
 								<ul>
@@ -102,7 +102,7 @@
 				{#each data.secondary as entity}
 					<div class="target">
 						<div class="target-content">
-							<span class="title">{entity.title}</span>
+							<span class="box-content-title">{entity.title}</span>
 							<div class="relations">
 								<p>Relations:</p>
 								<ul>
@@ -127,7 +127,7 @@
 				{#each data.tertiary as entity}
 					<div class="target">
 						<div class="target-content">
-							<span class="title">{entity.title}</span>
+							<span class="box-content-title">{entity.title}</span>
 							<div class="relations">
 								<p>Relations:</p>
 								<ul>
@@ -188,14 +188,7 @@
 	}
 
 	.target-content {
-		padding: 12px;
-	}
-
-	.target-content > .title {
-		color: var(--light-grey-text-colour);
-		letter-spacing: 0.05em;
-		font-size: 16px;
-		cursor: pointer;
+		padding: var(--box-item-padding);
 	}
 
 	.target-content > .relations {

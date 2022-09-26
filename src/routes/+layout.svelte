@@ -18,15 +18,22 @@
 		--green-colour: #0cb403;
 		--dark-grey-colour: darkslategray;
 
-		/* Highlights */
-		--light-highlight-colour: #fff9cc;
+		/* Highlight */
 		--dark-highlight-colour: rgb(240, 184, 45);
 
 		--content-spacing: 24px;
+		--box-item-padding: 12px;
 	}
 
 	:global(div.content-container) {
 		padding: var(--content-spacing);
+	}
+
+	:global(span.box-content-title) {
+		color: var(--light-grey-text-colour);
+		letter-spacing: 0.05em;
+		font-size: 16px;
+		cursor: pointer;
 	}
 
 	:global(h4.content-title) {

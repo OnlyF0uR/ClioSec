@@ -14,6 +14,9 @@
 	<h4 class="content-title">Case details</h4>
 	<div class="row">
 		<div class="details">
+			<span class="box-content-title">
+				Information
+			</span>
 			<p><strong>Name:</strong> {caseData.name}</p>
 			<p><strong>Description:</strong> {caseData.desc ?? 'N/A'}</p>
 		</div>
@@ -47,6 +50,8 @@
 	.row {
 		display: flex;
 		gap: var(--content-spacing);
+		min-height: var(--row1-height);
+		max-height: var(--row1-height);
 	}
 
 	.row div {
@@ -57,14 +62,11 @@
 		background-color: var(--blue-colour);
 		width: var(--row1-spacing);
 
-		min-height: var(--row1-height);
-		max-height: var(--row1-height);
+		padding: var(--box-item-padding);
 	}
 
 	.row > .stats {
 		width: calc(100% - var(--content-spacing) - var(--row1-spacing));
-		min-height: var(--row1-height);
-		max-height: var(--row1-height);
 
 		display: flex;
 		flex-wrap: wrap;

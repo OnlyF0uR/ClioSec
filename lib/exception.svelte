@@ -8,9 +8,10 @@
 <style>
     p {
         margin: 50px 50px;
+        color: var(--grey-text-colour);
     }
     .error-msg {
         font-style: italic;
-        color: var(--dark-grey-colour);
+        color: var(--light-grey-text-colour);
     }
 </style>
