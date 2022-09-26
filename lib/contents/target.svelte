@@ -75,7 +75,11 @@
 			<h4 class="content-title">Primary targets</h4>
 			<div class="row primary">
 				{#each data.primary as entity}
-					<div class="target">{entity.title}</div>
+					<div class="target">
+						<div class="target-content">
+							<span class="title">{entity.title}</span>
+						</div>
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -83,7 +87,11 @@
 			<h4 class="content-title">Secondary targets</h4>
 			<div class="row">
 				{#each data.secondary as entity}
-					<div class="target">{entity.title}</div>
+					<div class="target">
+						<div class="target-content">
+							<span class="title">{entity.title}</span>
+						</div>
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -91,7 +99,11 @@
 			<h4 class="content-title">Tertiary targets</h4>
 			<div class="row">
 				{#each data.tertiary as entity}
-					<div class="target">{entity.title}</div>
+					<div class="target">
+						<div class="target-content">
+							<span class="title">{entity.title}</span>
+						</div>
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -128,11 +140,27 @@
 		width: calc((100% - (var(--content-spacing) * 3)) / 4);
 
 		height: 37.5vh;
+		
 
 		background-color: var(--blue-colour);
 	}
 
 	.row.primary > .target {
 		box-shadow: 0 0 4px 1px var(--dark-highlight-colour);
+	}
+
+	/* .row:not(.primary) > .target {
+		box-shadow: 0 0 3px 0px #646977;
+	} */
+
+	.target-content {
+		padding: 12px;
+	}
+
+	.target-content > .title {
+		color: #9ea3b4;
+		letter-spacing: 0.05em;
+		font-size: 16px;
+		cursor: pointer;
 	}
 </style>

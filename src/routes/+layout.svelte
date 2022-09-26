@@ -13,17 +13,11 @@
 		--light-red-colour: #d65551;
 		--red-colour: #eb3731;
 		--green-colour: #0cb403;
-		--grey-colour: #8b8989;
 		--dark-grey-colour: darkslategray;
 
 		/* Highlights */
 		--light-highlight-colour: #fff9cc;
 		--dark-highlight-colour: rgb(240, 184, 45);
-
-		--sidebar-box-shadow: 0px 0px 1px var(--grey-colour);
-
-		--hr-border-top: 1px solid rgba(0, 0, 0, 0.1);
-		--hr-border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 
 		--content-spacing: 24px;
 	}
